@@ -51,7 +51,23 @@ func main() {
 
 	v := splitVersion(parameters.version)
 
-	fmt.Println(v)
+	// bump version
+	if parameters.bump == "patch" {
+		v.patch++
+	} else if parameters.bump == "minor" {
+		v.patch = 0
+		v.minor++
+	} else if parameters.bump == "major" {
+		v.patch = 0
+		v.minor = 0
+		v.major++
+	}
+
+	if useVersionPrefix {
+		fmt.Println("v" + v.String())
+	} else {
+		fmt.Println(v.String())
+	}
 }
 
 func splitVersion(version string) Version {
@@ -84,4 +100,8 @@ func splitVersion(version string) Version {
 	v := Version{major: major, minor: minor, patch: patch}
 
 	return v
+}
+
+func (v Version) String() string {
+	return fmt.Sprintf("%d.%d.%d", v.major, v.minor, v.patch)
 }
