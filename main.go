@@ -16,7 +16,7 @@ func init() {
 
 type AppParameters struct {
 	version string
-	bump    string
+	level   string
 }
 
 type Version struct {
@@ -32,8 +32,8 @@ func main() {
 
 	flag.StringVar(&parameters.version, "version", "", "specify the current version")
 	flag.StringVar(&parameters.version, "v", "", "see -version")
-	flag.StringVar(&parameters.bump, "bump", "patch", "specify which version to update")
-	flag.StringVar(&parameters.bump, "b", "patch", "see -bump")
+	flag.StringVar(&parameters.level, "level", "patch", "specify which version to update / bump")
+	flag.StringVar(&parameters.level, "l", "patch", "see -level")
 	flag.Parse()
 
 	log.Debug(parameters)
@@ -52,12 +52,12 @@ func main() {
 	v := splitVersion(parameters.version)
 
 	// bump version
-	if parameters.bump == "patch" {
+	if parameters.level == "patch" {
 		v.patch++
-	} else if parameters.bump == "minor" {
+	} else if parameters.level == "minor" {
 		v.patch = 0
 		v.minor++
-	} else if parameters.bump == "major" {
+	} else if parameters.level == "major" {
 		v.patch = 0
 		v.minor = 0
 		v.major++
